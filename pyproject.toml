@@ -1,0 +1,17 @@
+[project]
+name = "yolo-for-autonomous-driving"
+version = "0.1.0"
+description = "Easy Training of YOLO Models with Car Datasets for Autonomous Driving"
+authors = [
+  {name = "Dennis Eisermann", email = "dennis@eisermann.one"},
+]
+license = "AGPL-3.0"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "datumaro>=1.9.1",
+    "fiftyone>=1.3.0",
+    "huggingface-hub>=0.29.1",
+    "opencv-python>=4.11.0.86",
+    "ultralytics>=8.3.78",
+]
