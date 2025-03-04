@@ -174,4 +174,4 @@ cython_debug/
 /runs
 /kitti_yolo
 /kitti_train_yolo
-
+*.pt
