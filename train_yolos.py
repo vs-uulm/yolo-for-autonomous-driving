@@ -95,11 +95,12 @@ def train_model(model_name: str, yaml_file: str, suffix: str, dataset: str, vali
     try:
         model_path = Path(f"{model_name}.{suffix}")
         model = YOLO(model_path)
-        model.train(data=yaml_file, epochs=600, device=[0, 1], patience=10, val=validate, plots=True)
-        save_filename = f"{model_name}_{dataset}"
+        run_name = f"{model_name}_{dataset}"
         if suffix == "pt":
-            save_filename += "_finetuned"
-        save_filename += ".pt"
+            run_name += "_finetuned"
+        model.train(data=yaml_file, name=run_name, epochs=600, device=[0, 1], patience=10, val=validate, plots=True)
+
+        save_filename = run_name + ".pt"
         model.save(save_filename)
     except Exception as e:
         print(f"Failed to train model: model={model_name}, dataset={dataset}, error={e}")
