@@ -1,0 +1,8 @@
+directory: "kitti_train_yolo"
+model_names:
+  - "yolo12n"
+  - "yolo12s"
+  - "yolo12m"
+pretrained: true
+trained_from_scratch: true
+validate: true

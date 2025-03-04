@@ -1,0 +1,15 @@
+dataset: "kitti"
+classes:
+  - "Pedestrian"
+  - "Truck"
+  - "Car"
+  - "Cyclist"
+  - "DontCare"
+  - "Misc"
+  - "Van"
+  - "Tram"
+  - "Person_sitting"
+train_label: "train"
+export_directory: kitti_yolo
+validation_label: "test"
+database_uri: "mongodb://localhost:27017"

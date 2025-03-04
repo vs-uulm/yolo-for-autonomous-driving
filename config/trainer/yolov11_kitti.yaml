@@ -1,0 +1,8 @@
+directory: "kitti_yolo"
+model_names:
+  - "yolo11n"
+  - "yolo11s"
+  - "yolo11m"
+pretrained: true
+trained_from_scratch: true
+validate: false
