@@ -38,7 +38,7 @@ uv run dataset_to_yolo_converter.py ./config/converter/kitti.yaml
 
 ```
 
-### Train YOLOv11s from Scretch and Pretrained from COCO
+### Train YOLOv11s with KITTI from Scratch and Pretrained from COCO
 
 ```bash
 uv run train_yolos.py ./config/trainer/yolov11_kitti.yaml
