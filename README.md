@@ -34,7 +34,7 @@ uv sync
 ### Download and Convert KITTI Dataset to YOLO Format
 
 ```bash
-uv run dataset_to_yolo_converter.py ./config/converter/kitti.yaml
+uv run convert_dataset_to_yolo_format.py ./config/converter/kitti.yaml
 
 ```
 
