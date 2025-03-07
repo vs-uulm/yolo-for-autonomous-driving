@@ -5,6 +5,7 @@ import argparse
 import math
 from pathlib import Path
 
+import fiftyone
 import yaml
 import fiftyone as fo
 import fiftyone.zoo as foz
@@ -22,6 +23,7 @@ class Config:
     classes: List[str]
     train_label: str
     export_directory: Path
+    source_directory: Optional[Path]
     train_split_ratio: float = 0.8
     validation_label: Optional[str] = None
 
@@ -44,11 +46,12 @@ def load_config_file(path: str) -> Config:
         data = yaml.safe_load(f)
     return Config(**data)
 
-def load_dataset(dataset_name: str, input_label: str) -> fo.Dataset:
+def load_dataset(dataset_name: str, source_directory: Path, input_label: str) -> fo.Dataset:
     """Loads a dataset from the FiftyOne dataset zoo.
 
     Args:
         dataset_name (str): The name of the dataset to load.
+        source_directory (Path): The directory where the dataset is located.
         input_label (str): The specific split (e.g., "train", "validation", "test") to load.
 
     Returns:
@@ -57,6 +60,7 @@ def load_dataset(dataset_name: str, input_label: str) -> fo.Dataset:
     fiftyone_dataset = foz.load_zoo_dataset(
         dataset_name,
         split=input_label,
+        source_dir=source_directory,
     )
     return fiftyone_dataset
 
@@ -97,13 +101,14 @@ def export_dataset_to_yolo(dataset: fo.Dataset, export_directory: Path, output_l
     )
 
 def main():
+
     config_path = load_config_file_path()
     config = load_config_file(config_path)
     fo.config.database_uri = config.database_uri
     already_splitted = config.train_label != config.validation_label and config.validation_label is not None
     if already_splitted:
-        train_dataset = load_dataset(dataset_name=config.dataset, input_label=config.train_label)
-        validation_dataset = load_dataset(dataset_name=config.dataset, input_label=config.validation_label)
+        train_dataset = load_dataset(config.dataset, config.source_directory, config.train_label)
+        validation_dataset = load_dataset(config.dataset, config.source_directory, config.validation_label)
         export_dataset_to_yolo(
             dataset=train_dataset,
             dataset_name=config.dataset,
@@ -117,7 +122,7 @@ def main():
             classes=config.classes
         )
     if not already_splitted:
-        dataset = load_dataset(dataset_name=config.dataset, input_label=config.train_label)
+        dataset = load_dataset(config.dataset, config.source_directory, config.train_label)
         training_view, validation_view = split_balanced(config.train_split_ratio, dataset)
         export_dataset_to_yolo(
             dataset=training_view,
